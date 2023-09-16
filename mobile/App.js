@@ -1,40 +1,67 @@
-import { StatusBar } from 'expo-status-bar';
-import React, { useState } from 'react';
-import { StyleSheet, View, Button } from 'react-native';
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import MeditationTimer from './components/MeditationTimer';
-import Onboarding from './components/Onboarding'; // Import the Onboarding component
+import Onboarding from './components/Onboarding';
+import HomeScreen from './components/HomeScreen';
 
-export default function App() {
-  const [step, setStep] = useState(1); // Initialize step state for onboarding
-
-  if (step <= 4) {
-    return (
-      <View style={styles.container}>
-        <StatusBar style="auto" />
-        <Onboarding step={step} setStep={setStep} />
-        {step === 4 && (
-          <Button
-            title="Next"
-            onPress={() => setStep(5)} // Setting step to 5 will navigate to MeditationTimer
-          />
-        )}
-      </View>
-    );
-  }
-
+function ChallengesScreen() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <MeditationTimer />
+    <View style={styles.page}>
+      <Text>Challenges Screen</Text>
     </View>
   );
 }
 
+function BookScreen() {
+  return (
+    <View style={styles.page}>
+      <Text>Book Screen</Text>
+    </View>
+  );
+}
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Onboarding">
+        <Stack.Screen 
+          name="Onboarding" 
+          component={Onboarding} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="HomeScreen" 
+          component={HomeScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Challenges" 
+          component={ChallengesScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Book" 
+          component={BookScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="MeditationTimer" 
+          component={MeditationTimer} 
+          options={{ headerShown: true, title: 'Meditation Timer' }} 
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 const styles = StyleSheet.create({
-  container: {
+  page: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });

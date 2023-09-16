@@ -1,8 +1,9 @@
 // Onboarding.js
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, Button } from 'react-native';
 
-const Onboarding = ({ step, setStep }) => {
+const Onboarding = ({ navigation }) => {
+  const [step, setStep] = useState(1);
   const goToNextStep = () => setStep((prev) => prev + 1);
   const goToPreviousStep = () => setStep((prev) => prev - 1);
 
@@ -10,7 +11,7 @@ const Onboarding = ({ step, setStep }) => {
 
   switch (step) {
     case 1:
-      content = <Text>Step 1</Text>;
+      content = <Text>An AI-powered meditation app designed to be your trusted companion on your path to inner peace and self-discovery. In a world where daily stresses often pull us away from our true selves, Ponder is here to guide you back to a place of serenity and balance.</Text>;
       break;
     case 2:
       content = (
@@ -33,6 +34,8 @@ const Onboarding = ({ step, setStep }) => {
         <>
           <Button title="Back" onPress={goToPreviousStep} />
           <Text>Step 4</Text>
+          <Button title="Start" onPress={() => navigation.navigate('HomeScreen')} />
+
         </>
       );
       break;
@@ -56,12 +59,6 @@ const styles = StyleSheet.create({
       justifyContent: 'center',
       alignItems: 'center',
   },
-  timer: {
-      position: 'absolute',
-  },
-  button: {
-      zIndex: 1,
-  }
 });
 
 export default Onboarding;
