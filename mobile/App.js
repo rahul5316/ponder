@@ -51,7 +51,7 @@ export default function App() {
         <Stack.Screen 
           name="MeditationTimer" 
           component={MeditationTimer} 
-          options={{ headerShown: true, title: 'Meditation Timer' }} 
+          options={{ headerShown: false, title: 'Meditation Timer' }} 
         />
       </Stack.Navigator>
     </NavigationContainer>

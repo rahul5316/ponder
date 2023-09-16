@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, Modal } from 'react-native';
+import { View, Button, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Circle, Svg } from 'react-native-svg';
 import { Audio } from 'expo-av';
 import { Asset } from 'expo-asset';
 
-const MeditationTimer = () => {
+const MeditationTimer = ({ navigation }) => {
     const DURATION = 60; // seconds
 
     const [isActive, setIsActive] = useState(false);
@@ -20,12 +20,12 @@ const MeditationTimer = () => {
                     staysActiveInBackground: true,
                     shouldDuckAndroid: true,
                 });
-    
+
                 const soundInstance = new Audio.Sound();
                 const soundAsset = Asset.fromModule(require('../assets/output2.wav'));
                 await soundInstance.loadAsync(soundAsset);
                 setSound(soundInstance);
-                
+
             } catch (error) {
                 console.error("Error setting up audio:", error);
             }
@@ -69,7 +69,6 @@ const MeditationTimer = () => {
         return () => clearInterval(interval);
     }, [isActive, remainingTime]);
 
-    // Format time to minutes:seconds
     const formatTime = time => {
         const minutes = Math.floor(time / 60);
         const seconds = time % 60;
@@ -77,27 +76,32 @@ const MeditationTimer = () => {
     }
 
     return (
-        <View style={styles.container}>
-            <Svg width="200" height="200" style={styles.timer} viewBox="0 0 200 200">
-                <Circle
-                    cx="100"
-                    cy="100"
-                    r="95"
-                    stroke="blue"
-                    strokeWidth="2.5"
-                    fill="none"
-                    strokeLinecap="round"
-                    transform="rotate(-90 100 100)"
-                    strokeDasharray={`${progress * Math.PI * 2 * 95} 600`}
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
+            <TouchableOpacity style={styles.crossButton} onPress={() => navigation.navigate('Home')}>
+                    <Text style={styles.crossButtonText}>✕</Text>
+                </TouchableOpacity>
+                <Svg width="200" height="200" style={styles.timer} viewBox="0 0 200 200">
+                    <Circle
+                        cx="100"
+                        cy="100"
+                        r="95"
+                        stroke="blue"
+                        strokeWidth="2.5"
+                        fill="none"
+                        strokeLinecap="round"
+                        transform="rotate(-90 100 100)"
+                        strokeDasharray={`${progress * Math.PI * 2 * 95} 600`}
+                    />
+                </Svg>
+                <Text style={styles.countdown}>{formatTime(remainingTime)}</Text>
+                <Button
+                    title={isActive ? 'Pause' : 'Start'}
+                    onPress={handlePress}
+                    style={styles.button}
                 />
-            </Svg>
-            <Text style={styles.countdown}>{formatTime(remainingTime)}</Text>
-            <Button
-                title={isActive ? 'Pause' : 'Start'}
-                onPress={handlePress}
-                style={styles.button}
-            />
-        </View>
+            </View>
+        </SafeAreaView>
     );
 };
 
@@ -117,7 +121,32 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginTop: 350,
+    },
+    crossButton: {
+        position: 'absolute',
+        top: 20,
+        left: 20,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: 'white',
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.22,
+        shadowRadius: 2.22,
+        elevation: 3,
+    },
+    crossButtonText: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: 'black',
     }
 });
 
 export default MeditationTimer;
+
+
+
+
