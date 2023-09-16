@@ -1,14 +1,23 @@
 import React from "react";
-import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
 
-function Card({ title, description, buttonText, onPress }) {
+function Card({ title, description, buttonText, onPress, color, buttonColor }) {
   return (
-    <View style={styles.card}>
+    <View style={{ ...styles.card, backgroundColor: color }}>
       <Text style={styles.cardTitle}>{title}</Text>
       <Text style={styles.cardDescription}>{description}</Text>
-      <TouchableOpacity style={styles.cardButton} onPress={onPress}>
+      <TouchableOpacity
+        style={{ ...styles.cardButton, backgroundColor: buttonColor }}
+        onPress={onPress}
+      >
         <Text style={styles.buttonText}>{buttonText}</Text>
       </TouchableOpacity>
     </View>
@@ -17,28 +26,37 @@ function Card({ title, description, buttonText, onPress }) {
 
 function HomeScreen() {
   const navigation = useNavigation();
-  
+
   return (
     <View style={styles.page}>
-      <Card 
+      <Text style={{ color: "white", fontSize: 24, display: "flex" }}>
+        <Text style={{ flexDirection: "row" }}>Happy Sunday,</Text>
+        <Text style={{ flexDirection: "row" }}>Sebastian</Text>
+      </Text>
+      <Card
         title="Guided Meditation"
         description={`How are you feeling today, [Name]?`}
         buttonText="Check in"
-        onPress={() => navigation.navigate('GuidedMeditation')}
+        color="#D847AF"
+        buttonColor="rgba(29, 0, 65, 0.49)"
+        onPress={() => navigation.navigate("GuidedMeditation")}
       />
-      <Card 
+      <Card
         title="Weekly Challenges"
         description={`Self-Compassion Practice\n\nWrite a letter of self-compassion to yourself, acknowledging your strengths and forgiving your imperfections.`}
         buttonText="View"
-        onPress={() => navigation.navigate('WeeklyChallenges')}
+        color="#1DAABD"
+        buttonColor="rgba(29, 0, 65, 0.49)"
+        onPress={() => navigation.navigate("WeeklyChallenges")}
       />
-      <Card 
+      <Card
         title="Journal"
+        color="#FF8A00"
+        buttonColor="rgba(29, 0, 65, 0.49)"
       />
     </View>
   );
 }
-
 
 function MeditationScreen() {
   const navigation = useNavigation();
@@ -66,27 +84,31 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#2A0060" }}>
       <Tab.Navigator>
         <Tab.Screen
           name="Home"
           component={HomeScreen}
           options={{
-            tabBarLabel: 'Home',
-            tabBarIcon: () => (
-              <View style={styles.homeIcon}></View> 
-            ),
+            tabBarLabel: "Home",
+            tabBarIcon: () => <View style={styles.homeIcon}></View>,
+            headerShown: false,
+            tabBarStyle: { backgroundColor: "#2A0060" },
           }}
         />
         <Tab.Screen
           name="Meditation"
           component={MeditationScreen}
-          options={{ tabBarLabel: 'Meditate' }}
+          options={{ tabBarLabel: "Meditate" }}
         />
         <Tab.Screen
           name="Challenges"
           component={ChallengesScreen}
-          options={{ tabBarLabel: 'Challenges' }}
+          options={{
+            tabBarLabel: "Challenges",
+            headerShown: false,
+            tabBarStyle: { backgroundColor: "#2A0060" },
+          }}
         />
       </Tab.Navigator>
     </SafeAreaView>
@@ -96,31 +118,40 @@ export default function App() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
+    height: "100%",
     padding: 20,
+    backgroundColor: "#2A0060",
   },
   card: {
-    borderWidth: 1,
-    borderColor: 'lightgray',
-    borderRadius: 10,
+    // borderWidth: 1,
+    // borderColor: "lightgray",
+    borderRadius: 20,
     padding: 15,
     marginBottom: 15,
+    alignItems: "center",
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 24,
+    fontWeight: "500",
     marginBottom: 10,
+    color: "white",
   },
   cardDescription: {
     fontSize: 16,
     marginBottom: 10,
+    color: "white",
   },
   cardButton: {
-    backgroundColor: '#3498db',
+    backgroundColor: "#3498db",
     padding: 10,
-    alignItems: 'center',
-    borderRadius: 5,
+    alignItems: "center",
+    width: 217,
+    borderRadius: 20,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
+    fontWeight: "500",
+    fontSize: 18,
   },
   homeIcon: {
     width: 29,
