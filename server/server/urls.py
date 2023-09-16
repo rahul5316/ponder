@@ -17,7 +17,9 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.urls import path
 from rest_framework import routers
+from app.views.generate_meditation import GenerateMeditationView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('api/meditation', GenerateMeditationView.as_view(), name="generate"),
 ]

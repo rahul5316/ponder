@@ -5,4 +5,5 @@ django-filter
 python-dotenv
 dj_database_url
 psycopg2-binary
-wheel
+requests
+# google-cloud-texttospeech
