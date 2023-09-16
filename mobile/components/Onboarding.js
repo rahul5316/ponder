@@ -64,6 +64,18 @@ const Onboarding = ({ navigation }) => {
       {step < 4 && (
         <Button title="Next" onPress={goToNextStep} />
       )}
+      {step === 1 && (
+        <Image source={require('../assets/dots.png')} style={{ width: 70, height: 11.5 }} />
+      )}
+      {step === 2 && (
+        <Image source={require('../assets/dots2.png')} style={{ width: 70, height: 11.5 }} />
+      )}
+      {step === 3 && (
+        <Image source={require('../assets/dots3.png')} style={{ width: 70, height: 11.5 }} />
+      )}
+      {step === 4 && (
+        <Image source={require('../assets/dots4.png')} style={{ width: 70, height: 11.5 }} />
+      )}
     </View>
   );
 };
@@ -77,4 +89,3 @@ const styles = StyleSheet.create({
 });
 
 export default Onboarding;
-
