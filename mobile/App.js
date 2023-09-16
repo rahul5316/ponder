@@ -1,21 +1,67 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 import MeditationTimer from './components/MeditationTimer';
+import Onboarding from './components/Onboarding';
+import HomeScreen from './components/HomeScreen';
 
-export default function App() {
+function ChallengesScreen() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      <MeditationTimer />
+    <View style={styles.page}>
+      <Text>Challenges Screen</Text>
     </View>
   );
 }
 
+function BookScreen() {
+  return (
+    <View style={styles.page}>
+      <Text>Book Screen</Text>
+    </View>
+  );
+}
+
+const Stack = createStackNavigator();
+
+export default function App() {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Onboarding">
+        <Stack.Screen 
+          name="Onboarding" 
+          component={Onboarding} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="HomeScreen" 
+          component={HomeScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Challenges" 
+          component={ChallengesScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Book" 
+          component={BookScreen} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="MeditationTimer" 
+          component={MeditationTimer} 
+          options={{ headerShown: true, title: 'Meditation Timer' }} 
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+}
+
 const styles = StyleSheet.create({
-  container: {
+  page: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
     justifyContent: 'center',
+    alignItems: 'center',
   },
 });
