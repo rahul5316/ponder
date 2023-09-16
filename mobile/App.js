@@ -4,6 +4,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MeditationTimer from './components/MeditationTimer';
 import Onboarding from './components/Onboarding';
+import Onboarding2 from './components/Onboarding2';
+import Onboarding3 from './components/Onboarding3';
+import Onboarding4 from './components/Onboarding4';
 import HomeScreen from './components/HomeScreen';
 
 function ChallengesScreen() {
@@ -31,6 +34,21 @@ export default function App() {
         <Stack.Screen 
           name="Onboarding" 
           component={Onboarding} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Onboarding2" 
+          component={Onboarding2} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Onboarding3" 
+          component={Onboarding3} 
+          options={{ headerShown: false }} 
+        />
+        <Stack.Screen 
+          name="Onboarding4" 
+          component={Onboarding4} 
           options={{ headerShown: false }} 
         />
         <Stack.Screen 
@@ -65,3 +83,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 });
+
