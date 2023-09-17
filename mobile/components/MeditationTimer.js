@@ -11,44 +11,36 @@ import {
 import { Circle, Svg } from "react-native-svg";
 import { Audio } from "expo-av";
 import { Asset } from "expo-asset";
+import { createMeditation } from "../api/meditation";
 
 const MeditationTimer = ({ route, navigation }) => {
-    const DURATION = route.params?.duration * 60 || 60; 
+  const DURATION = route.params?.duration * 60 || 60;
 
+  const [isActive, setIsActive] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(DURATION);
+  const [sound, setSound] = useState();
 
-    const [isActive, setIsActive] = useState(false);
-    const [progress, setProgress] = useState(0);
-    const [remainingTime, setRemainingTime] = useState(DURATION);
-    const [sound, setSound] = useState();
+  useEffect(() => {
+    async function setupAudio() {
+      try {
+        await Audio.setAudioModeAsync({
+          playsInSilentModeIOS: true,
+          staysActiveInBackground: true,
+          shouldDuckAndroid: true,
+        });
 
-    useEffect(() => {
-        async function setupAudio() {
-            try {
-                await Audio.setAudioModeAsync({
-                    playsInSilentModeIOS: true,
-                    staysActiveInBackground: true,
-                    shouldDuckAndroid: true,
-                });
-
-                const soundInstance = new Audio.Sound();
-                const soundAsset = Asset.fromModule(require('../assets/output2.wav'));
-                await soundInstance.loadAsync(soundAsset);
-                setSound(soundInstance);
-
-            } catch (error) {
-                console.error("Error setting up audio:", error);
-            }
-        }
-        setupAudio();
-    }, []);
-
-    async function playSound() {
-        try {
-            await sound.replayAsync();
-        } catch (error) {
-            console.error("Error playing sound:", error);
-        }
+        const soundInstance = new Audio.Sound();
+        const soundAsset = Asset.fromModule(require("../assets/output2.wav"));
+        console.log("soundAsset:", soundAsset);
+        await soundInstance.loadAsync(soundAsset);
+        setSound(soundInstance);
+      } catch (error) {
+        console.error("Error setting up audio:", error);
+      }
     }
+    setupAudio();
+  }, []);
 
   async function playSound() {
     try {

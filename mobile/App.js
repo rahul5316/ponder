@@ -1,59 +1,61 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Button } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import MeditationTimer from './components/MeditationTimer';
-import Onboarding from './components/Onboarding';
-import Onboarding2 from './components/Onboarding2';
-import Onboarding3 from './components/Onboarding3';
-import Onboarding4 from './components/Onboarding4';
-import HomeScreen from './components/HomeScreen';
-import PonderQuestionPage from './components/PonderQuestionPage';
-import Duration from './components/Duration';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  Button,
+} from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import MeditationTimer from "./components/MeditationTimer";
+import Onboarding from "./components/Onboarding";
+import Onboarding2 from "./components/Onboarding2";
+import Onboarding3 from "./components/Onboarding3";
+import Onboarding4 from "./components/Onboarding4";
+import HomeScreen from "./components/HomeScreen";
+import PonderQuestionPage from "./components/PonderQuestionPage";
+import Duration from "./components/Duration";
 
 const emotions = [
-  "Happy", "Sad", "Angry", "Confident", "Worried",
-  "Relaxed", "Stressed", "Excited", "Bored", "Indifferent"
+  "Happy",
+  "Sad",
+  "Angry",
+  "Confident",
+  "Worried",
+  "Relaxed",
+  "Stressed",
+  "Excited",
+  "Bored",
+  "Indifferent",
 ];
 
-// function GuidedMeditationScreen({ navigation }) {
-//   const [selectedEmotion, setSelectedEmotion] = useState('');
-
-//   return (
-//     <View style={styles.page}>
-//       <TextInput 
-//         placeholder="Choose your emotion..." 
-//         style={styles.textInput} 
-//         value={selectedEmotion}
-//         onChangeText={text => setSelectedEmotion(text)}
-//       />
-
-//       <View style={styles.emotionContainer}>
-//         {emotions.map((emotion, index) => (
-//           <TouchableOpacity 
-//             key={index}
-//             style={styles.emotionOption} 
-//             onPress={() => setSelectedEmotion(emotion)}
-//           >
-//             <Text>{emotion}</Text>
-//           </TouchableOpacity>
-//         ))}
-//       </View>
-
-//       <Button title="Next" onPress={() => navigation.navigate('WeeklyChallenges')} />
-//     </View>
-//   );
-// }
 function GuidedMeditationScreen({ navigation }) {
-  const [selectedEmotion, setSelectedEmotion] = useState('');
+  const [selectedEmotion, setSelectedEmotion] = useState("");
+  const [inputStyle, setInputStyle] = useState(styles.textInput);
 
   return (
-    <View style={styles.page}>
+    <View style={{ ...styles.page, backgroundColor: "#2A0060" }}>
+      <Text
+        style={{
+          color: "white",
+          fontSize: 20,
+          fontWeight: 500,
+          marginBottom: 14,
+          textAlign: "center",
+        }}
+      >
+        How are you feeling today,{"\n"}Sebastian?
+      </Text>
       <TextInput
-        placeholder="Choose your emotion..."
-        style={styles.textInput}
+        placeholder="Custom..."
+        style={inputStyle}
         value={selectedEmotion}
-        onChangeText={text => setSelectedEmotion(text)}
+        onChangeText={(text) => {
+          setSelectedEmotion(text);
+          setInputStyle(styles.textInput);
+        }}
       />
 
       <View style={styles.emotionContainer}>
@@ -61,14 +63,33 @@ function GuidedMeditationScreen({ navigation }) {
           <TouchableOpacity
             key={index}
             style={styles.emotionOption}
-            onPress={() => setSelectedEmotion(emotion)}
+            onPress={() => {
+              setInputStyle(styles.textInput);
+              setSelectedEmotion(emotion);
+            }}
           >
-            <Text>{emotion}</Text>
+            <Text style={{ color: "white" }}>{emotion}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      <Button title="Next" onPress={() => navigation.navigate('PonderQuestion')} />
+      <Button
+        title="Next"
+        onPress={() => {
+          if (selectedEmotion === "") {
+            // make border of input red
+            setInputStyle({
+              ...styles.textInput,
+              borderColor: "red",
+              borderWidth: 3,
+            });
+          } else {
+            navigation.navigate("PonderQuestion", {
+              emotion: selectedEmotion,
+            });
+          }
+        }}
+      />
     </View>
   );
 }
@@ -96,7 +117,6 @@ function BookScreen() {
     </View>
   );
 }
-
 
 const Stack = createStackNavigator();
 
@@ -152,10 +172,10 @@ export default function App() {
         <Stack.Screen
           name="MeditationTimer"
           component={MeditationTimer}
-          options={{ headerShown: false, title: 'Meditation Timer' }}
+          options={{ headerShown: false, title: "Meditation Timer" }}
         />
         <Stack.Screen
-          name="WeeklyChallenges"  // Modified this line
+          name="WeeklyChallenges" // Modified this line
           component={WeeklyChallenges}
           options={{ headerShown: false }}
         />
@@ -164,7 +184,6 @@ export default function App() {
           component={BookScreen}
           options={{ headerShown: false }}
         />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
@@ -173,30 +192,37 @@ export default function App() {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
   textInput: {
-    width: '100%',
+    width: "75%",
+    borderRadius: 12,
+    backgroundColor: "white",
     padding: 10,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
-    marginBottom: 20
+    marginBottom: 20,
   },
   emotionContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 20
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
+    width: "100%",
+    borderColor: "white",
+    border: "1.5px solid white",
+    color: "white",
+    marginBottom: 20,
   },
   emotionOption: {
     padding: 10,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 12,
+    borderColor: "white",
+    color: "white",
     marginBottom: 10,
-    width: '48%'
-  }
+    width: "48%",
+  },
 });

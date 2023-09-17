@@ -45,15 +45,16 @@ function HomeScreen() {
             fontSize: 24,
             display: "flex",
             marginBottom: 32,
+            fontWeight: "500",
+            textAlign: "center",
           }}
         >
-          <Text>Happy Sunday,</Text>
-          <Text>Sebastian</Text>
+          Happy Sunday,{"\n"}Sebastian!
         </Text>
       </View>
       <Card
         title="Guided Meditation"
-        description={`How are you feeling today, [Name]?`}
+        description={`How are you feeling today, Sebastian?`}
         buttonText="Check in"
         color="#D847AF"
         buttonColor="rgba(29, 0, 65, 0.49)"
