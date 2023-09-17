@@ -5,6 +5,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Image,
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
@@ -29,10 +30,24 @@ function HomeScreen() {
 
   return (
     <View style={styles.page}>
-      <Text style={{ color: "white", fontSize: 24, display: "flex" }}>
-        <Text style={{ flexDirection: "row" }}>Happy Sunday,</Text>
-        <Text style={{ flexDirection: "row" }}>Sebastian</Text>
-      </Text>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 24,
+            display: "flex",
+            marginBottom: 32,
+          }}
+        >
+          <Text>Happy Sunday,</Text>
+          <Text>Sebastian</Text>
+        </Text>
+      </View>
       <Card
         title="Guided Meditation"
         description={`How are you feeling today, [Name]?`}
@@ -52,6 +67,7 @@ function HomeScreen() {
       <Card
         title="Journal"
         color="#FF8A00"
+        buttonText="New Entry"
         buttonColor="rgba(29, 0, 65, 0.49)"
       />
     </View>
@@ -91,23 +107,62 @@ export default function App() {
           component={HomeScreen}
           options={{
             tabBarLabel: "Home",
-            tabBarIcon: () => <View style={styles.homeIcon}></View>,
+            tabBarIcon: ({ focused }) => {
+              const image = focused
+                ? require("../assets/home-selected.png")
+                : require("../assets/home.png");
+              return <Image source={image} />;
+            },
             headerShown: false,
+            tabBarIconStyle: { marginTop: 9, marginBottom: 5 },
             tabBarStyle: { backgroundColor: "#2A0060" },
+            tabBarLabelStyle: {
+              color: "white",
+              fontSize: 12,
+              alignItems: "center",
+            },
           }}
         />
         <Tab.Screen
           name="Meditation"
           component={MeditationScreen}
-          options={{ tabBarLabel: "Meditate" }}
+          options={{
+            tabBarLabel: "Meditate",
+            tabBarIcon: ({ focused }) => {
+              const image = focused
+                ? require("../assets/yoga-selected.png")
+                : require("../assets/yoga.png");
+              return <Image source={image} />;
+            },
+            headerShown: false,
+            tabBarIconStyle: { marginTop: 9, marginBottom: 5 },
+            tabBarStyle: { backgroundColor: "#2A0060" },
+            tabBarLabelStyle: {
+              color: "white",
+              fontSize: 12,
+              alignItems: "center",
+            },
+          }}
         />
         <Tab.Screen
           name="Challenges"
           component={ChallengesScreen}
           options={{
             tabBarLabel: "Challenges",
+            tabBarIcon: ({ focused }) => {
+              const image = focused
+                ? require("../assets/checkmark-selected.png")
+                : require("../assets/checkmark.png");
+              return <Image source={image} style={styles.tabIcon} />;
+            },
             headerShown: false,
+            tabBarIconStyle: { marginTop: 9, marginBottom: 5 },
             tabBarStyle: { backgroundColor: "#2A0060" },
+            tabBarLabelStyle: {
+              color: "white",
+              fontSize: 12,
+              alignItems: "center",
+            },
           }}
         />
       </Tab.Navigator>
