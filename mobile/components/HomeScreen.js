@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
@@ -6,9 +6,12 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Image,
+  FlatList,
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import { getChallenges } from "../api/challenges";
+import Challenge from "./Challenge";
 
 function Card({ title, description, buttonText, onPress, color, buttonColor }) {
   return (
@@ -54,7 +57,7 @@ function HomeScreen() {
         buttonText="Check in"
         color="#D847AF"
         buttonColor="rgba(29, 0, 65, 0.49)"
-        onPress={() => navigation.navigate("GuidedMeditation")}
+        onPress={() => navigation.navigate("MeditationTimer")}
       />
       <Card
         title="Weekly Challenges"
@@ -62,7 +65,7 @@ function HomeScreen() {
         buttonText="View"
         color="#1DAABD"
         buttonColor="rgba(29, 0, 65, 0.49)"
-        onPress={() => navigation.navigate("WeeklyChallenges")}
+        onPress={() => navigation.navigate("Challenges")}
       />
       <Card
         title="Journal"
@@ -89,9 +92,38 @@ function MeditationScreen() {
 
 // Sample Challenges Screen
 function ChallengesScreen() {
+  const [challenges, setChallenges] = React.useState([]);
+
+  useEffect(() => {
+    getChallenges().then((res) => {
+      if (res.status !== 200) {
+        return;
+      }
+      setChallenges(res["data"]);
+    });
+  }, []);
+  if (challenges.length === 0) {
+    return (
+      <View style={styles.page}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.page}>
-      <Text>Challenges Screen</Text>
+      <FlatList
+        data={challenges}
+        renderItem={({ item }) => (
+          <Challenge
+            title={item.title}
+            description={item.description}
+            buttonText="View"
+            color="#1DAABD"
+            buttonColor="rgba(29, 0, 65, 0.49)"
+          />
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 }
