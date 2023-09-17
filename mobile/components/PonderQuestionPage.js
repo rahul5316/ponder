@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import React, { useState } from "react";
+import { View, Text, TextInput, Button, StyleSheet } from "react-native";
 
-function PonderQuestionPage({ navigation }) {
-  const [answer, setAnswer] = useState('');
+function PonderQuestionPage({ route, navigation }) {
+  const [answer, setAnswer] = useState("");
+  const { selectedEmotion } = route.params;
 
   return (
     <View style={styles.page}>
@@ -12,10 +13,18 @@ function PonderQuestionPage({ navigation }) {
         multiline
         numberOfLines={8}
         value={answer}
-        onChangeText={text => setAnswer(text)}
+        onChangeText={(text) => setAnswer(text)}
         placeholder="Share your thoughts..."
       />
-      <Button title="Next" onPress={() => navigation.navigate('Duration')} />
+      <Button
+        title="Next"
+        onPress={() =>
+          navigation.navigate("Duration", {
+            selectedEmotion: selectedEmotion,
+            goal: answer,
+          })
+        }
+      />
     </View>
   );
 }
@@ -23,23 +32,23 @@ function PonderQuestionPage({ navigation }) {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
   },
   questionText: {
     fontSize: 18,
-    marginBottom: 20
+    marginBottom: 20,
   },
   input: {
-    width: '100%',
-    padding: 10, 
-    paddingTop: 10, 
+    width: "100%",
+    padding: 10,
+    paddingTop: 10,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     marginBottom: 20,
-    textAlignVertical: 'top' 
-  }
+    textAlignVertical: "top",
+  },
 });
 
 export default PonderQuestionPage;

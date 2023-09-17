@@ -17,6 +17,7 @@ import Onboarding4 from "./components/Onboarding4";
 import HomeScreen from "./components/HomeScreen";
 import PonderQuestionPage from "./components/PonderQuestionPage";
 import Duration from "./components/Duration";
+import GuidedMeditationOptionalScreen from "./components/GuidedMeditationOptionalScreen";
 
 const emotions = [
   "Happy",
@@ -73,8 +74,7 @@ function GuidedMeditationScreen({ navigation }) {
         ))}
       </View>
 
-      <Button
-        title="Next"
+      <TouchableOpacity
         onPress={() => {
           if (selectedEmotion === "") {
             // make border of input red
@@ -84,12 +84,15 @@ function GuidedMeditationScreen({ navigation }) {
               borderWidth: 3,
             });
           } else {
-            navigation.navigate("PonderQuestion", {
+            navigation.navigate("GuidedMeditationOptional", {
               emotion: selectedEmotion,
             });
           }
         }}
-      />
+        style={styles.buttonContainer}
+      >
+        <Text style={styles.buttonText}>Next</Text>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -160,6 +163,11 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
+          name="GuidedMeditationOptional"
+          component={GuidedMeditationOptionalScreen}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
           name="PonderQuestion"
           component={PonderQuestionPage}
           options={{ headerShown: false }}
@@ -214,6 +222,19 @@ const styles = StyleSheet.create({
     border: "1.5px solid white",
     color: "white",
     marginBottom: 20,
+  },
+  buttonContainer: {
+    backgroundColor: "#7000E0",
+    borderRadius: 14,
+    paddingVertical: 15,
+    paddingHorizontal: "30%",
+    alignItems: "center",
+    marginBottom: 30,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "white",
   },
   emotionOption: {
     padding: 10,

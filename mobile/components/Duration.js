@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native'; 
-import { Picker } from '@react-native-picker/picker';
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+import { Picker } from "@react-native-picker/picker";
 
-const Duration = ({ navigation }) => {
-  const [selectedDuration, setSelectedDuration] = useState(1); 
+const Duration = ({ route, navigation }) => {
+  const [selectedDuration, setSelectedDuration] = useState(1);
+  const { selectedEmotion, goal } = route.params;
 
   const handleNextPress = () => {
-    navigation.navigate('MeditationTimer', { duration: selectedDuration });
+    navigation.navigate("MeditationTimer", {
+      duration: selectedDuration,
+      selectedEmotion,
+      goal,
+    });
   };
 
   return (
@@ -30,15 +35,15 @@ const Duration = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   pickerStyle: {
     height: 200,
     width: 100,
   },
   minText: {
-    fontSize: 16, 
+    fontSize: 16,
   },
 });
 

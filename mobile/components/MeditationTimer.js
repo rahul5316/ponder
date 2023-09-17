@@ -15,14 +15,30 @@ import { createMeditation } from "../api/meditation";
 
 const MeditationTimer = ({ route, navigation }) => {
   const DURATION = route.params?.duration * 60 || 60;
+  const emotion = route.params?.selectedEmotion || "Happy";
+  const goal = route.params?.goal || "I want to be happy";
+  const [loading, setLoading] = useState(false);
 
   const [isActive, setIsActive] = useState(false);
   const [progress, setProgress] = useState(0);
   const [remainingTime, setRemainingTime] = useState(DURATION);
   const [sound, setSound] = useState();
 
+  const generateMeditation = async () => {
+    setLoading(true);
+    await createMeditation({
+      duration: DURATION,
+      emotion: emotion,
+      goal: goal,
+    });
+    setLoading(false);
+  };
+
   useEffect(() => {
     async function setupAudio() {
+      console.log("Loading audio...");
+      //   await generateMeditation();
+      console.log("Audio created");
       try {
         await Audio.setAudioModeAsync({
           playsInSilentModeIOS: true,
@@ -31,7 +47,10 @@ const MeditationTimer = ({ route, navigation }) => {
         });
 
         const soundInstance = new Audio.Sound();
-        const soundAsset = Asset.fromModule(require("../assets/output2.wav"));
+        const soundAsset = Asset.fromModule(
+          //   require("../assets/meditation.mp3")
+          require("../assets/generated.wav")
+        );
         console.log("soundAsset:", soundAsset);
         await soundInstance.loadAsync(soundAsset);
         setSound(soundInstance);
@@ -83,6 +102,14 @@ const MeditationTimer = ({ route, navigation }) => {
     const seconds = time % 60;
     return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
   };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.countdown}>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>

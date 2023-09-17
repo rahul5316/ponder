@@ -1,11 +1,6 @@
-export const getChallenges = async (data) => {
+export const getChallenges = async () => {
   let response = await fetch(
-    `${process.env.EXPO_PUBLIC_SERVER_URL}/api/challenges`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
-    }
+    `${process.env.EXPO_PUBLIC_SERVER_URL}/api/challenges`
   );
   return { status: response.status };
 };
