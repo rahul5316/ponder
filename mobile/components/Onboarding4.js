@@ -1,38 +1,111 @@
-// Onboarding4.js
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 
 const Onboarding4 = ({ navigation }) => {
-  const [step, setStep] = useState(1);
 
-  let content;
-
-  content = (
-    <>
-      <Button title="Skip" onPress={() => navigation.navigate('HomeScreen')} />
-      <Button title="Back" onPress={() => navigation.navigate('Onboarding3')} />
-      <Text>Journals for Reflection {'\n'}{'\n'}</Text>
-      <Image source={require('../assets/placeholder.png')} style={{ width: 500, height: 200 }} />
-      <Text>{'\n'}{'\n'}Reflect on your journey, document your progress, and gain insights into your thoughts and emotions. Whether you're journaling your meditation experiences or simply jotting down your daily reflections, our journaling feature is a safe space for self-expression.</Text>
-      <Button title="Start" onPress={() => navigation.navigate('HomeScreen')} />
-
-    </>
-  );
-
-return (
+  return (
+    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
-      {content}
-      <Image source={require('../assets/dots4.png')} style={{ width: 70, height: 11.5 }} />
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.skipButton}
+          onPress={() => navigation.navigate('Onboarding3')}
+        >
+          <Text style={[styles.buttonText, { fontWeight: 'bold' }]}>⇐ Back</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('HomeScreen')}
+        >
+          <Text style={[styles.buttonText, { fontWeight: 'bold' }]}>Skip</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.contentContainer}>
+        <Text style={[styles.title, { color: 'white' }]}>Journals for Reflection</Text>
+        <Image source={require('../assets/image3.png')} style={styles.image} />
+        <Text style={[styles.description, { color: 'white' }]}>
+          Reflect on your journey, document your progress, and gain insights into your thoughts and emotions. Whether you're journaling your meditation experiences or simply jotting down your daily reflections, our journaling feature is a safe space for self-expression.
+        </Text>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomeScreen')}
+          style={styles.buttonContainer}
+        >
+          <Text style={styles.buttonText}>Start Meditating</Text>
+        </TouchableOpacity>
+      </View>
+      <Image source={require('../assets/dots4.png')} style={styles.dots} />
     </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#2A0060',
+    paddingHorizontal: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  skipButton: {
+    justifyContent: 'flex-start',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    justifyContent: 'flex-end',
+    fontWeight: 'bold',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 80,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  image: {
+    width: 160,
+    height: 160,
+    marginBottom: 30,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: 'white',
+  },
+  dots: {
+    width: 70,
+    height: 11.5,
+    alignSelf: 'center',
+  },
+  buttonContainer: {
+    backgroundColor: '#7000E0',
+    borderRadius: 14,
+    paddingVertical: 15,
+    paddingHorizontal: "20%",
+    alignItems: 'center',
+    marginTop: 130,
+    alignSelf: 'center',
+  },
 });
 
 export default Onboarding4;

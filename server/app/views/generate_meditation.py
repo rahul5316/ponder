@@ -11,10 +11,10 @@ import time
 
 
 class GenerateMeditationView(APIView):
-    def get(self, request, format=None):
+    def post(self, request, format=None):
         meditation = self.generate_meditations(request.data)
-        # self.google_cloud_tts(meditation)
-        self.bark_tts(meditation)
+        self.google_cloud_tts(meditation)
+        # self.bark_tts(meditation)
         return Response(meditation)
 
     def generate_meditations(self, data):

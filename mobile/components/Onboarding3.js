@@ -1,37 +1,113 @@
-// Onboarding3.js
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, Image } from 'react-native';
+import { StyleSheet, View, Text, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 
 const Onboarding3 = ({ navigation }) => {
-  const [step, setStep] = useState(1);
 
-  let content;
-
-  content = (
-    <>
-      <Button title="Skip" onPress={() => navigation.navigate('HomeScreen')} />
-      <Button title="Back" onPress={() => navigation.navigate('Onboarding2')} />
-      <Text>Mindfulness Weekly Challenges {'\n'}{'\n'}</Text>
-      <Image source={require('../assets/placeholder.png')} style={{ width: 500, height: 200 }} />
-      <Text>{'\n'}{'\n'}Cultivate a habit of mindfulness and kindness with our weekly challenges, also generated using AI. From gratitude practices, to acts of kindness, these challenges inspire you to bring mindfulness into your daily life, fostering a sense of connection and well-being.</Text>
-    </>
-  );
-
-return (
+  return (
+    <SafeAreaView style={styles.container}>
     <View style={styles.container}>
-      {content}
-      <Button title="Next" onPress={() => navigation.navigate('Onboarding4')} />
-      <Image source={require('../assets/dots3.png')} style={{ width: 70, height: 11.5 }} />
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.skipButton}
+          onPress={() => navigation.navigate('Onboarding2')}
+        >
+          <Text style={[styles.buttonText, { fontWeight: 'bold' }]}>⇐ Back</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('HomeScreen')}
+        >
+          <Text style={[styles.buttonText, { fontWeight: 'bold' }]}>Skip</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.contentContainer}>
+        <Text style={[styles.title, { color: 'white' }]}>Mindfulness Weekly Challenges</Text>
+        <Image source={require('../assets/image2.png')} style={styles.image} />
+        <Text style={[styles.description, { color: 'white' }]}>
+          Cultivate a habit of mindfulness and kindness with our weekly challenges, also generated using AI. From gratitude practices, to acts of kindness, these challenges inspire you to bring mindfulness into your daily life, fostering a sense of connection and well-being.
+        </Text>
+      </View>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Onboarding4')}
+        style={styles.buttonContainer}
+      >
+        <Text style={styles.buttonText}>Next</Text>
+      </TouchableOpacity>
+
+      <Image source={require('../assets/dots3.png')} style={styles.dots} />
     </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#2A0060',
+    paddingHorizontal: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 20,
+    paddingHorizontal: 20,
+  },
+  skipButton: {
+    justifyContent: 'flex-start',
+    fontWeight: 'bold',
+  },
+  backButton: {
+    justifyContent: 'flex-end',
+    fontWeight: 'bold',
+  },
+  buttonText: {
+    fontSize: 16,
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  contentContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: 'white',
+    textAlign: 'center',
+    marginBottom: 40,
+  },
+  image: {
+    width: 180,
+    height: 180,
+    marginBottom: 30,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+    color: 'white',
+  },
+  dots: {
+    width: 70,
+    height: 11.5,
+    alignSelf: 'center',
+  },
+  buttonContainer: {
+    backgroundColor: '#7000E0',
+    borderRadius: 14,
+    paddingVertical: 15,
+    paddingHorizontal: "30%",
+    alignItems: 'center',
+    marginBottom: 30,
+    alignSelf: 'center',
+  },
 });
 
 export default Onboarding3;
