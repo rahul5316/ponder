@@ -1,81 +1,74 @@
-// import React from 'react';
-// import { View, Text, Button, StyleSheet } from 'react-native';
-// import { NavigationContainer } from '@react-navigation/native';
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TouchableOpacity,
+} from "react-native";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { useNavigation } from "@react-navigation/native";
 
-// // Sample Home Screen
-// function HomeScreen() {
-//   return (
-//     <View style={styles.page}>
-//       <Text>Home Screen</Text>
-//     </View>
-//   );
-// }
-
-// // Sample Challenges Screen
-// function ChallengesScreen() {
-//   return (
-//     <View style={styles.page}>
-//       <Text>Challenges Screen</Text>
-//     </View>
-//   );
-// }
-
-// // Sample Book Screen
-// function BookScreen() {
-//   return (
-//     <View style={styles.page}>
-//       <Text>Book Screen</Text>
-//     </View>
-//   );
-// }
-
-// const Tab = createBottomTabNavigator();
-
-// export default function App() {
-//   return (
-//       <Tab.Navigator>
-//         <Tab.Screen name="Challenges" component={ChallengesScreen} />
-//         <Tab.Screen name="Book" component={BookScreen} />
-//       </Tab.Navigator>
-  
-//   );
-// }
-
-// const styles = StyleSheet.create({
-//   page: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-// });
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { useNavigation } from '@react-navigation/native';
-
-// Sample Home Screen
-function HomeScreen() {
+function Card({ title, description, buttonText, onPress, color, buttonColor }) {
   return (
-    <View style={styles.page}>
-      <Text>Home Screen</Text>
+    <View style={{ ...styles.card, backgroundColor: color }}>
+      <Text style={styles.cardTitle}>{title}</Text>
+      <Text style={styles.cardDescription}>{description}</Text>
+      <TouchableOpacity
+        style={{ ...styles.cardButton, backgroundColor: buttonColor }}
+        onPress={onPress}
+      >
+        <Text style={styles.buttonText}>{buttonText}</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-// Meditation Screen as a placeholder for navigation
+function HomeScreen() {
+  const navigation = useNavigation();
+
+  return (
+    <View style={styles.page}>
+      <Text style={{ color: "white", fontSize: 24, display: "flex" }}>
+        <Text style={{ flexDirection: "row" }}>Happy Sunday,</Text>
+        <Text style={{ flexDirection: "row" }}>Sebastian</Text>
+      </Text>
+      <Card
+        title="Guided Meditation"
+        description={`How are you feeling today, [Name]?`}
+        buttonText="Check in"
+        color="#D847AF"
+        buttonColor="rgba(29, 0, 65, 0.49)"
+        onPress={() => navigation.navigate("GuidedMeditation")}
+      />
+      <Card
+        title="Weekly Challenges"
+        description={`Self-Compassion Practice\n\nWrite a letter of self-compassion to yourself, acknowledging your strengths and forgiving your imperfections.`}
+        buttonText="View"
+        color="#1DAABD"
+        buttonColor="rgba(29, 0, 65, 0.49)"
+        onPress={() => navigation.navigate("WeeklyChallenges")}
+      />
+      <Card
+        title="Journal"
+        color="#FF8A00"
+        buttonColor="rgba(29, 0, 65, 0.49)"
+      />
+    </View>
+  );
+}
+
 function MeditationScreen() {
   const navigation = useNavigation();
-  // Navigate to MeditationTimer when this screen is focused
   React.useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      navigation.navigate('MeditationTimer');
+    const unsubscribe = navigation.addListener("focus", () => {
+      navigation.navigate("MeditationTimer");
     });
 
     return unsubscribe;
   }, [navigation]);
 
-  return null; // Return null as this is just a placeholder
+  return null;
 }
 
 // Sample Challenges Screen
@@ -91,42 +84,79 @@ const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <Tab.Navigator>
-      <Tab.Screen 
-        name="Home" 
-        component={HomeScreen}
-        options={{
-          tabBarLabel: 'Home',
-          tabBarIcon: () => (
-            <View style={styles.homeIcon}></View> // Your custom style for the home icon
-          ),
-        }}
-      />
-      <Tab.Screen 
-        name="Meditation" 
-        component={MeditationScreen} 
-        options={{ tabBarLabel: 'Meditate' }}
-      />
-      <Tab.Screen 
-        name="Challenges" 
-        component={ChallengesScreen} 
-        options={{ tabBarLabel: 'Challenges' }}
-      />
-    </Tab.Navigator>
+    <SafeAreaView style={{ flex: 1, backgroundColor: "#2A0060" }}>
+      <Tab.Navigator>
+        <Tab.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{
+            tabBarLabel: "Home",
+            tabBarIcon: () => <View style={styles.homeIcon}></View>,
+            headerShown: false,
+            tabBarStyle: { backgroundColor: "#2A0060" },
+          }}
+        />
+        <Tab.Screen
+          name="Meditation"
+          component={MeditationScreen}
+          options={{ tabBarLabel: "Meditate" }}
+        />
+        <Tab.Screen
+          name="Challenges"
+          component={ChallengesScreen}
+          options={{
+            tabBarLabel: "Challenges",
+            headerShown: false,
+            tabBarStyle: { backgroundColor: "#2A0060" },
+          }}
+        />
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    height: "100%",
+    padding: 20,
+    backgroundColor: "#2A0060",
+  },
+  card: {
+    // borderWidth: 1,
+    // borderColor: "lightgray",
+    borderRadius: 20,
+    padding: 15,
+    marginBottom: 15,
+    alignItems: "center",
+  },
+  cardTitle: {
+    fontSize: 24,
+    fontWeight: "500",
+    marginBottom: 10,
+    color: "white",
+  },
+  cardDescription: {
+    fontSize: 16,
+    marginBottom: 10,
+    color: "white",
+  },
+  cardButton: {
+    backgroundColor: "#3498db",
+    padding: 10,
+    alignItems: "center",
+    width: 217,
+    borderRadius: 20,
+  },
+  buttonText: {
+    color: "white",
+    fontWeight: "500",
+    fontSize: 18,
   },
   homeIcon: {
     width: 29,
     height: 26,
     flexShrink: 0,
-    backgroundColor: 'lightgray', // You might need to modify this as per your image
-    // Add more styles if necessary
+    backgroundColor: "lightgray",
   },
 });
