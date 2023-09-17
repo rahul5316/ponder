@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Image,
+  FlatList,
 } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { useNavigation } from "@react-navigation/native";
+import { getChallenges } from "../api/challenges";
+import Challenge from "./Challenge";
 
 function Card({ title, description, buttonText, onPress, color, buttonColor }) {
   return (
@@ -29,10 +33,24 @@ function HomeScreen() {
 
   return (
     <View style={styles.page}>
-      <Text style={{ color: "white", fontSize: 24, display: "flex" }}>
-        <Text style={{ flexDirection: "row" }}>Happy Sunday,</Text>
-        <Text style={{ flexDirection: "row" }}>Sebastian</Text>
-      </Text>
+      <View
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <Text
+          style={{
+            color: "white",
+            fontSize: 24,
+            display: "flex",
+            marginBottom: 32,
+          }}
+        >
+          <Text>Happy Sunday,</Text>
+          <Text>Sebastian</Text>
+        </Text>
+      </View>
       <Card
         title="Guided Meditation"
         description={`How are you feeling today, [Name]?`}
@@ -47,11 +65,12 @@ function HomeScreen() {
         buttonText="View"
         color="#1DAABD"
         buttonColor="rgba(29, 0, 65, 0.49)"
-        onPress={() => navigation.navigate("WeeklyChallenges")}
+        onPress={() => navigation.navigate("Challenges")}
       />
       <Card
         title="Journal"
         color="#FF8A00"
+        buttonText="New Entry"
         buttonColor="rgba(29, 0, 65, 0.49)"
       />
     </View>
@@ -62,7 +81,7 @@ function MeditationScreen() {
   const navigation = useNavigation();
   React.useEffect(() => {
     const unsubscribe = navigation.addListener("focus", () => {
-      navigation.navigate("MeditationTimer");
+      navigation.navigate("GuidedMeditation");
     });
 
     return unsubscribe;
@@ -73,9 +92,38 @@ function MeditationScreen() {
 
 // Sample Challenges Screen
 function ChallengesScreen() {
+  const [challenges, setChallenges] = React.useState([]);
+
+  useEffect(() => {
+    getChallenges().then((res) => {
+      if (res.status !== 200) {
+        return;
+      }
+      setChallenges(res["data"]);
+    });
+  }, []);
+  if (challenges.length === 0) {
+    return (
+      <View style={styles.page}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.page}>
-      <Text>Challenges Screen</Text>
+      <FlatList
+        data={challenges}
+        renderItem={({ item }) => (
+          <Challenge
+            title={item.title}
+            description={item.description}
+            buttonText="View"
+            color="#1DAABD"
+            buttonColor="rgba(29, 0, 65, 0.49)"
+          />
+        )}
+        keyExtractor={(item) => item.id}
+      />
     </View>
   );
 }
@@ -91,23 +139,62 @@ export default function App() {
           component={HomeScreen}
           options={{
             tabBarLabel: "Home",
-            tabBarIcon: () => <View style={styles.homeIcon}></View>,
+            tabBarIcon: ({ focused }) => {
+              const image = focused
+                ? require("../assets/home-selected.png")
+                : require("../assets/home.png");
+              return <Image source={image} />;
+            },
             headerShown: false,
+            tabBarIconStyle: { marginTop: 9, marginBottom: 5 },
             tabBarStyle: { backgroundColor: "#2A0060" },
+            tabBarLabelStyle: {
+              color: "white",
+              fontSize: 12,
+              alignItems: "center",
+            },
           }}
         />
         <Tab.Screen
           name="Meditation"
           component={MeditationScreen}
-          options={{ tabBarLabel: "Meditate" }}
+          options={{
+            tabBarLabel: "Meditate",
+            tabBarIcon: ({ focused }) => {
+              const image = focused
+                ? require("../assets/yoga-selected.png")
+                : require("../assets/yoga.png");
+              return <Image source={image} />;
+            },
+            headerShown: false,
+            tabBarIconStyle: { marginTop: 9, marginBottom: 5 },
+            tabBarStyle: { backgroundColor: "#2A0060" },
+            tabBarLabelStyle: {
+              color: "white",
+              fontSize: 12,
+              alignItems: "center",
+            },
+          }}
         />
         <Tab.Screen
           name="Challenges"
           component={ChallengesScreen}
           options={{
             tabBarLabel: "Challenges",
+            tabBarIcon: ({ focused }) => {
+              const image = focused
+                ? require("../assets/checkmark-selected.png")
+                : require("../assets/checkmark.png");
+              return <Image source={image} style={styles.tabIcon} />;
+            },
             headerShown: false,
+            tabBarIconStyle: { marginTop: 9, marginBottom: 5 },
             tabBarStyle: { backgroundColor: "#2A0060" },
+            tabBarLabelStyle: {
+              color: "white",
+              fontSize: 12,
+              alignItems: "center",
+            },
           }}
         />
       </Tab.Navigator>

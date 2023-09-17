@@ -22,5 +22,6 @@ from app.views import GenerateMeditationView, ChallengeView
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/meditation", GenerateMeditationView.as_view(), name="generate"),
-    path("api/challenges", ChallengeView.as_view(), name="challenges"),
+    path("api/challenges/", ChallengeView.as_view(), name="challenges"),
+    path("api/challenges/<int:id>", ChallengeView.as_view(), name="update_challenge"),
 ]

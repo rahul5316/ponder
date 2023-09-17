@@ -27,7 +27,7 @@ class ChallengeView(APIView):
         res = challenges.values()
         return Response(res)
 
-    def post(self, request, format=None):
+    def put(self, request, format=None):
         challenge = Challenge.objects.get(id=request.data["id"])
         challenge.completed = request.data["completed"]
         challenge.save()

@@ -1,8 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Button, Text, StyleSheet, Modal, TouchableOpacity, SafeAreaView } from 'react-native';
-import { Circle, Svg } from 'react-native-svg';
-import { Audio } from 'expo-av';
-import { Asset } from 'expo-asset';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Button,
+  Text,
+  StyleSheet,
+  Modal,
+  TouchableOpacity,
+  SafeAreaView,
+} from "react-native";
+import { Circle, Svg } from "react-native-svg";
+import { Audio } from "expo-av";
+import { Asset } from "expo-asset";
 
 const MeditationTimer = ({ route, navigation }) => {
     const DURATION = route.params?.duration * 60 || 60; 
@@ -42,112 +50,122 @@ const MeditationTimer = ({ route, navigation }) => {
         }
     }
 
-    const handlePress = async () => {
-        if (isActive) {
-            sound && await sound.pauseAsync();
-        } else {
-            sound && await sound.playAsync();
-        }
-        setIsActive(!isActive);
-    };
+  async function playSound() {
+    try {
+      await sound.replayAsync();
+    } catch (error) {
+      console.error("Error playing sound:", error);
+    }
+  }
 
-    useEffect(() => {
-        let interval;
-        if (isActive && remainingTime > 0) {
-            interval = setInterval(() => {
-                setProgress((DURATION - remainingTime + 1) / DURATION);
-                setRemainingTime(prevTime => prevTime - 1);
-            }, 1000);
-        } else {
-            clearInterval(interval);
-            if (remainingTime === 0) {
-                setIsActive(false);
-                setProgress(0);
-                setRemainingTime(DURATION);
-            }
-        }
+  const handlePress = async () => {
+    if (isActive) {
+      sound && (await sound.pauseAsync());
+    } else {
+      sound && (await sound.playAsync());
+    }
+    setIsActive(!isActive);
+  };
 
-        return () => clearInterval(interval);
-    }, [isActive, remainingTime]);
-
-    const formatTime = time => {
-        const minutes = Math.floor(time / 60);
-        const seconds = time % 60;
-        return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+  useEffect(() => {
+    let interval;
+    if (isActive && remainingTime > 0) {
+      interval = setInterval(() => {
+        setProgress((DURATION - remainingTime + 1) / DURATION);
+        setRemainingTime((prevTime) => prevTime - 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+      if (remainingTime === 0) {
+        setIsActive(false);
+        setProgress(0);
+        setRemainingTime(DURATION);
+      }
     }
 
-    return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.container}>
-            <TouchableOpacity style={styles.crossButton} onPress={() => navigation.navigate('Home')}>
-                    <Text style={styles.crossButtonText}>✕</Text>
-                </TouchableOpacity>
-                <Svg width="200" height="200" style={styles.timer} viewBox="0 0 200 200">
-                    <Circle
-                        cx="100"
-                        cy="100"
-                        r="95"
-                        stroke="blue"
-                        strokeWidth="2.5"
-                        fill="none"
-                        strokeLinecap="round"
-                        transform="rotate(-90 100 100)"
-                        strokeDasharray={`${progress * Math.PI * 2 * 95} 600`}
-                    />
-                </Svg>
-                <Text style={styles.countdown}>{formatTime(remainingTime)}</Text>
-                <Button
-                    title={isActive ? 'Pause' : 'Start'}
-                    onPress={handlePress}
-                    style={styles.button}
-                />
-            </View>
-        </SafeAreaView>
-    );
+    return () => clearInterval(interval);
+  }, [isActive, remainingTime]);
+
+  const formatTime = (time) => {
+    const minutes = Math.floor(time / 60);
+    const seconds = time % 60;
+    return `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
+  };
+
+  return (
+    <View style={styles.container}>
+      <TouchableOpacity
+        style={styles.crossButton}
+        onPress={() => navigation.navigate("Home")}
+      >
+        <Text style={styles.crossButtonText}>✕</Text>
+      </TouchableOpacity>
+      <Svg width="200" height="200" style={styles.timer} viewBox="0 0 200 200">
+        <Circle
+          cx="100"
+          cy="100"
+          r="95"
+          stroke="blue"
+          strokeWidth="12"
+          fill="none"
+          strokeLinecap="round"
+          transform="rotate(-90 100 100)"
+          strokeDasharray={`${progress * Math.PI * 2 * 95} 600`}
+        />
+      </Svg>
+      <Text style={styles.countdown}>{formatTime(remainingTime)}</Text>
+      <Button
+        title={isActive ? "Pause" : "Start"}
+        onPress={handlePress}
+        style={styles.button}
+      />
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#2A0060",
+  },
+  timer: {
+    position: "absolute",
+  },
+  button: {
+    marginTop: 10,
+    position: "absolute",
+    bottom: 50,
+    zIndex: 1,
+  },
+  countdown: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginTop: 350,
+    color: "white",
+  },
+  crossButton: {
+    position: "absolute",
+    top: 70,
+    left: 27,
+    padding: 10,
+    borderRadius: 100,
+    backgroundColor: "rgba(112, 0, 224, 0.45)",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
     },
-    timer: {
-        position: 'absolute',
-    },
-    button: {
-        marginTop: 10,
-    },
-    countdown: {
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginTop: 350,
-    },
-    crossButton: {
-        position: 'absolute',
-        top: 20,
-        left: 20,
-        padding: 10,
-        borderRadius: 5,
-        backgroundColor: 'white',
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 1,
-        },
-        shadowOpacity: 0.22,
-        shadowRadius: 2.22,
-        elevation: 3,
-    },
-    crossButtonText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'black',
-    }
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+    elevation: 2,
+  },
+  crossButtonText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black",
+  },
 });
 
 export default MeditationTimer;
-
-
-
-
