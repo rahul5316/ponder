@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  View, Text, TextInput, Button, StyleSheet,
+  TouchableOpacity, TouchableWithoutFeedback, Keyboard
+} from 'react-native';
 
 function GuidedMeditationScreen({ navigation }) {
   const [emotion, setEmotion] = useState('');
@@ -10,28 +13,36 @@ function GuidedMeditationScreen({ navigation }) {
   ];
 
   return (
-    <View style={styles.page}>
-      <TextInput
-        style={styles.input}
-        placeholder="Choose your emotion"
-        value={emotion}
-        onChangeText={text => setEmotion(text)}
-      />
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.page}>
+        <TextInput
+          style={styles.input}
+          placeholder="Choose your emotion"
+          value={emotion}
+          onChangeText={text => setEmotion(text)}
+        />
 
-      <View style={styles.optionsContainer}>
-        {emotions.map((emotionOption, index) => (
-          <TouchableOpacity 
-            key={index} 
-            style={styles.optionButton}
-            onPress={() => setEmotion(emotionOption)}
-          >
-            <Text>{emotionOption}</Text>
-          </TouchableOpacity>
-        ))}
+        <View style={styles.optionsContainer}>
+          {emotions.map((emotionOption, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.optionButton}
+              onPress={() => {
+                setEmotion(emotionOption);
+              }}
+            >
+              <Text>{emotionOption}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <Button
+          title="Next"
+          onPress={() => navigation.navigate('Home')}
+          disabled={!emotion}  // Disable if 'emotion' is an empty string
+        />
       </View>
-
-      <Button title="Next" onPress={() => navigation.navigate('YourNextScreenName')} />
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
@@ -41,6 +52,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
+    width: '100%',  // make sure it covers full width
+    height: '100%', // make sure it covers full height
   },
   input: {
     width: '100%',
@@ -60,7 +73,7 @@ const styles = StyleSheet.create({
     margin: 5,
     borderWidth: 1,
     borderColor: '#ccc',
-    flexBasis: '48%',  // approximately half the container's width
+    flexBasis: '48%',
   },
 });
 

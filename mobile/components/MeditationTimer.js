@@ -4,8 +4,9 @@ import { Circle, Svg } from 'react-native-svg';
 import { Audio } from 'expo-av';
 import { Asset } from 'expo-asset';
 
-const MeditationTimer = ({ navigation }) => {
-    const DURATION = 60; // seconds
+const MeditationTimer = ({ route, navigation }) => {
+    const DURATION = route.params?.duration * 60 || 60; 
+
 
     const [isActive, setIsActive] = useState(false);
     const [progress, setProgress] = useState(0);
