@@ -55,20 +55,15 @@ function HomeScreen() {
       <Card
         title="Guided Meditation"
         description={`How are you feeling today, Sebastian?`}
-        buttonText="Check in"
+        buttonText="Check In"
         color="#D847AF"
         buttonColor="rgba(29, 0, 65, 0.49)"
         onPress={() => navigation.navigate("GuidedMeditation")}
       />
       <Card
         title="Weekly Challenges"
-        description={
-          <>
-            <Text style={{ textDecorationLine: 'underline' }}>Self-Compassion Practice</Text>
-            <Text>{`\n\nWrite a letter of self-compassion to yourself, acknowledging your strengths and forgiving your imperfections.`}</Text>
-          </>
-        }
-        buttonText="View"
+        description={`Self-Compassion Practice\n\nWrite a letter of self-compassion to yourself, acknowledging your strengths and forgiving your imperfections.`}
+        buttonText="View All"
         color="#1DAABD"
         buttonColor="rgba(29, 0, 65, 0.49)"
         onPress={() => navigation.navigate("Challenges")}
@@ -106,7 +101,7 @@ function ChallengesScreen() {
       if (res.status !== 200) {
         return;
       }
-      setChallenges(res["data"]);
+      setChallenges(res.data);
     });
   }, []);
   if (challenges.length === 0) {
