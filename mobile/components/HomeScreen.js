@@ -100,6 +100,7 @@ function ChallengesScreen() {
       if (res.status !== 200) {
         return;
       }
+      setChallenges(res.data);
     });
   }, []);
   if (challenges.length === 0) {

@@ -2,7 +2,8 @@ export const getChallenges = async () => {
   let response = await fetch(
     `${process.env.EXPO_PUBLIC_SERVER_URL}/api/challenges`
   );
-  return { status: response.status };
+  const data = await response.json();
+  return { status: response.status, data };
 };
 
 export const updateChallenge = async (id, data) => {
