@@ -49,13 +49,13 @@ function HomeScreen() {
             textAlign: "center",
           }}
         >
-          Happy Sunday,{"\n"}Sebastian!
+          Happy Sunday, Sebastian!
         </Text>
       </View>
       <Card
         title="Guided Meditation"
         description={`How are you feeling today, Sebastian?`}
-        buttonText="Check In"
+        buttonText="Begin"
         color="#D847AF"
         buttonColor="rgba(29, 0, 65, 0.49)"
         onPress={() => navigation.navigate("GuidedMeditation")}
@@ -68,6 +68,7 @@ function HomeScreen() {
         buttonColor="rgba(29, 0, 65, 0.49)"
         onPress={() => navigation.navigate("Challenges")}
       />
+
       <Card
         title="Journal"
         color="#FF8A00"
@@ -211,8 +212,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#2A0060",
   },
   card: {
-    // borderWidth: 1,
-    // borderColor: "lightgray",
     borderRadius: 20,
     padding: 15,
     marginBottom: 15,
@@ -228,6 +227,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginBottom: 10,
     color: "white",
+    textAlign: "center",
   },
   cardButton: {
     backgroundColor: "#3498db",
@@ -240,6 +240,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "500",
     fontSize: 18,
+    textAlign: "left",
   },
   homeIcon: {
     width: 29,

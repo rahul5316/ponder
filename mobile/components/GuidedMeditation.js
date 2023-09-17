@@ -14,16 +14,16 @@ function GuidedMeditationScreen({ navigation }) {
   const [emotion, setEmotion] = useState("");
 
   const emotions = [
-    "Happy",
-    "Sad",
-    "Excited",
-    "Bored",
+    "Stressed",
     "Relaxed",
     "Anxious",
-    "Energetic",
+    "Bored",
+    "Inspired",
     "Tired",
-    "Motivated",
-    "Indifferent",
+    "Restless",
+    "Conflicted",
+    "Overwhelmed",
+    "Optimistic",
   ];
 
   return (

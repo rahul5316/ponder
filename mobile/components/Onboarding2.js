@@ -26,8 +26,7 @@ const Onboarding2 = ({ navigation }) => {
           <Text style={[styles.title, { color: 'white' }]}>Personalized Guided Meditations</Text>
           <Image source={require('../assets/image1.png')} style={styles.image} />
           <Text style={[styles.description, { color: 'white' }]}>
-            Our AI tailors meditation sessions specifically for you. Whether you're looking for relaxation, stress relief, or personal growth, Ponder crafts each meditation to resonate with your unique preferences and current emotional state.
-          </Text>
+          Ponder crafts each meditation session specifically for you.</Text>
         </View>
 
         <TouchableOpacity

@@ -26,8 +26,7 @@ const Onboarding3 = ({ navigation }) => {
         <Text style={[styles.title, { color: 'white' }]}>Mindfulness Weekly Challenges</Text>
         <Image source={require('../assets/image2.png')} style={styles.image} />
         <Text style={[styles.description, { color: 'white' }]}>
-          Cultivate a habit of mindfulness and kindness with our weekly challenges, also generated using AI. From gratitude practices, to acts of kindness, these challenges inspire you to bring mindfulness into your daily life, fostering a sense of connection and well-being.
-        </Text>
+        From gratitude practices, to acts of kindness, our challenges will inspire you to cultivate a habit of mindfulness.</Text>
       </View>
 
       <TouchableOpacity
