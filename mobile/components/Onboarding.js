@@ -1,37 +1,97 @@
-// Onboarding.js
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, Button, Image } from 'react-native';
+import { StyleSheet, View, Text, TouchableOpacity, Image, SafeAreaView } from 'react-native';
 
 const Onboarding = ({ navigation }) => {
-  const [step, setStep] = useState(1);
 
-  let content;
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.container}>
+        {/* Skip Button */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('HomeScreen')}
+          style={styles.skipButton}
+        >
+          <Text style={styles.buttonText}>Skip</Text>
+        </TouchableOpacity>
 
-  content = (
-    content =
-      <View>
-        <Button title="Skip" onPress={() => navigation.navigate('HomeScreen')} />
-        <Image source={require('../assets/icon.png')} style={{ width: 100, height: 100 }} />
-        <Text>welcome to ponder {'\n'}{'\n'}</Text>
-        <Text>{'\n'}{'\n'}An AI-powered meditation app designed to be your trusted companion on your path to inner peace and self-discovery. {'\n'}{'\n'}In a world where daily stresses often pull us away from our true selves, Ponder is here to guide you back to a place of serenity and balance.</Text>
+        {/* Content */}
+        <View style={styles.contentContainer}>
+          <Image source={require('../assets/icon.png')} style={styles.logo} />
+          <Text style={[styles.title, { color: 'white' }]}>Welcome to Ponder</Text>
+          <Text style={[styles.description, { color: 'white' }]}>
+            An AI-powered meditation app designed to be your trusted companion on your path to inner peace and self-discovery.
+          </Text>
+          <Text style={[styles.description, { color: 'white' }]}>
+            In a world where daily stresses often pull us away from our true selves, Ponder is here to guide you back to a place of serenity and balance.
+          </Text>
+        </View>
+
+        {/* Next Button */}
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Onboarding2')}
+          style={styles.buttonContainer}
+        >
+          <Text style={styles.buttonText}>Next</Text>
+        </TouchableOpacity>
+
+        {/* Dots */}
+        <Image source={require('../assets/dots.png')} style={styles.dots} />
       </View>
-  );
-
-return (
-    <View style={styles.container}>
-      {content}
-      <Button title="Next" onPress={() => navigation.navigate('Onboarding2')} />
-      <Image source={require('../assets/dots.png')} style={{ width: 70, height: 11.5 }} />
-    </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#2A0060',
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+  },
+  contentContainer: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 20,
+  },
+  description: {
+    fontSize: 16,
+    textAlign: 'center',
+    color: 'white',
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  dots: {
+    width: 70,
+    height: 11.5,
+  },
+  buttonContainer: {
+    backgroundColor: '#7000E0',
+    borderRadius: 14,
+    paddingVertical: 15,
+    paddingHorizontal: "30%",
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: 'white',
+  },
+  skipButton: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+  },
 });
 
 export default Onboarding;
