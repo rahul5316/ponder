@@ -25,9 +25,8 @@ const Onboarding4 = ({ navigation }) => {
       <View style={styles.contentContainer}>
         <Text style={[styles.title, { color: 'white' }]}>Journals for Reflection</Text>
         <Image source={require('../assets/image3.png')} style={styles.image} />
-        <Text style={[styles.description, { color: 'white' }]}>
-          Reflect on your journey, document your progress, and gain insights into your thoughts and emotions. Whether you're journaling your meditation experiences or simply jotting down your daily reflections, our journaling feature is a safe space for self-expression.
-        </Text>
+        <Text style={[styles.description, { color: 'white' }]}>Reflect on your journey, document your progress, and gain insights into your thoughts and emotions.
+      </Text>
         <TouchableOpacity
           onPress={() => navigation.navigate('HomeScreen')}
           style={styles.buttonContainer}

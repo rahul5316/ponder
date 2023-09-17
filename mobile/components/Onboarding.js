@@ -21,9 +21,9 @@ const Onboarding = ({ navigation }) => {
           <Text style={[styles.description, { color: 'white' }]}>
             An AI-powered meditation app designed to be your trusted companion on your path to inner peace and self-discovery.
           </Text>
-          <Text style={[styles.description, { color: 'white' }]}>
+          {/* <Text style={[styles.description, { color: 'white' }]}>
             In a world where daily stresses often pull us away from our true selves, Ponder is here to guide you back to a place of serenity and balance.
-          </Text>
+          </Text> */}
         </View>
 
         {/* Next Button */}
